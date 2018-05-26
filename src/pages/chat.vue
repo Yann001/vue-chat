@@ -12,7 +12,6 @@
 <script>
 import UserList from '@/components/UserList';
 import Room from '@/components/Room';
-import { getUser } from '@/service/getData';
 export default {
   data () {
     return {
@@ -43,11 +42,6 @@ export default {
           this.msgList = data.msgList;
         } else if (data.type === 'join') {
           console.log('msg: join new user');
-          let resUser = await getUser({userName});
-          console.log(resUser);
-          if (resUser.code === 200) {
-            localStorage.setItem('myInfo', JSON.stringify(resUser.user));
-          }
           this.userList = data.userList;
         } else if (data.type === 'msg') {
           console.log('msg: receive msg');

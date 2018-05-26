@@ -23,7 +23,6 @@ export default {
   float: left;
   background-color: #555;
   border-radius: 3px 0px 0px 3px;
-  overflow-y: auto;
   >.head {
     width: 100%;
     height: 50px;
@@ -40,6 +39,14 @@ export default {
     padding: 0;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background:#706d6d;
+      border-radius: 5px;
+    }
     .item {
       border-bottom: 1px solid #333;
       padding: 10px;

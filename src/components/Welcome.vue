@@ -2,7 +2,7 @@
   <div class="welcome">
     <h1>{{ title }}</h1>
     <h3>{{ tips }}</h3>
-    <input type="text" class="user-name" v-model="userName" @keypress="keyPress" ref="userInput">
+    <input type="text" class="user-name" v-model="userName" @keypress.enter="keyPress" ref="userInput">
   </div>
 </template>
 
@@ -18,20 +18,17 @@ export default {
   },
   methods: {
     async keyPress (e) {
-      if (e.keyCode === 13) {
-        let httpRes = await isExist({userName: this.userName});
-        if (httpRes.code === 200 && httpRes.isExist) {
-          alert('user name has existed');
-        } else {
-          // 设置临时用户名
-          localStorage.setItem('myInfo', JSON.stringify({userName: this.userName}));
-          this.$router.push({
-            path: '/chat',
-            query: {
-              userName: this.userName
-            }
-          });
-        }
+      let httpRes = await isExist({userName: this.userName});
+      if (httpRes.code === 200 && httpRes.isExist) {
+        alert('user name has existed');
+      } else {
+        localStorage.setItem('myInfo', JSON.stringify(httpRes.user));
+        this.$router.push({
+          path: '/chat',
+          query: {
+            userName: this.userName
+          }
+        });
       }
     }
   },

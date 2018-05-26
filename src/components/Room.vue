@@ -15,7 +15,7 @@
       </li>
     </ul>
     <div class="send">
-      <textarea class="edit" v-model="msgText" @keypress="enterSendMsg"></textarea>
+      <textarea class="edit" v-model="msgText" @keyup.enter="enterSendMsg"></textarea>
       <a href="javascript:void(0)" class="btn-send" @click="sendMsg">Send</a>
     </div>
   </div>
@@ -47,20 +47,19 @@ export default {
       this.ws.send(JSON.stringify(data));
     },
     enterSendMsg (e) {
-      if (e.keyCode === 13) {
-        let locMyInfo = JSON.parse(localStorage.getItem('myInfo'));
-        console.log(locMyInfo);
-        let data = {
-          type: 'msg',
-          msg: {
-            roomName: this.roomName,
-            user: locMyInfo._id,
-            content: this.msgText,
-            time: Date.now()
-          }
-        };
-        this.ws.send(JSON.stringify(data));
-      }
+      let locMyInfo = JSON.parse(localStorage.getItem('myInfo'));
+      console.log(locMyInfo);
+      let data = {
+        type: 'msg',
+        msg: {
+          roomName: this.roomName,
+          user: locMyInfo._id,
+          content: this.msgText,
+          time: Date.now()
+        }
+      };
+      this.ws.send(JSON.stringify(data));
+      this.msgText = '';
     }
   },
   props: ['roomName', 'msgList', 'ws']
@@ -90,7 +89,14 @@ export default {
     flex-direction: column;
     border-bottom: 1px solid #ccc;
     box-sizing: border-box;
-    overflow: auto;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background:#706d6d;
+      border-radius: 5px;
+    }
     .item {
       list-style: none;
       .time {
